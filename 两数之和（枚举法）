@@ -1,0 +1,30 @@
+/**
+ * @brief 在数组中找出两个数，使它们的和等于目标值target
+ * 
+ * @param nums 整型数组指针，表示需要寻找的数组
+ * @param numsSize 整型变量，表示数组的大小
+ * @param target 整型变量，表示目标值
+ * @param returnSize 整型指针，表示返回数组的大小
+ * @return int* 返回一个由两个数的下标组成的数组，如果不存在这样的两个数，则返回 NULL
+ */
+int* twoSum(int* nums, int numsSize, int target, int* returnSize)
+{
+    // 两重循环遍历所有的数对
+    for (int i = 0; i < numsSize; ++i) 
+    {
+        for (int j = i + 1; j < numsSize; ++j) 
+        {
+            // 如果找到了符合要求的数对，就创建一个长度为2的动态数组，将下标存入其中
+            if (nums[i] + nums[j] == target) 
+            {
+                int* ret = malloc(sizeof(int) * 2);
+                ret[0] = i, ret[1] = j;
+                *returnSize = 2;
+                return ret;
+            }
+        }
+    }
+    // 如果没有找到符合要求的数对，将返回数组大小置为0，返回NULL
+    *returnSize = 0;
+    return NULL;
+}
