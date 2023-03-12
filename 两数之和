@@ -1,0 +1,45 @@
+struct hashTable {
+    int key; // 储存键
+    int val; // 储存值
+    UT_hash_handle hh; // 用于 hash 表的管理
+};
+
+struct hashTable* hashtable; // 定义 hash 表
+
+// 查找 hash 表中键为 ikey 的元素
+struct hashTable* find(int ikey) {
+    struct hashTable* tmp;
+    // HASH_FIND_INT 宏函数会在 hash 表中查找键为 ikey 的元素，如果找到返回元素指针 tmp
+    HASH_FIND_INT(hashtable, &ikey, tmp);
+    return tmp;
+}
+
+// 向 hash 表中插入键值对，若键已存在则更新其值
+void insert(int ikey, int ival) {
+    struct hashTable* it = find(ikey); // 先查找 ikey 是否存在于 hash 表中
+    if (it == NULL) { // 如果不存在
+        struct hashTable* tmp = malloc(sizeof(struct hashTable)); // 则新建一个节点
+        tmp->key = ikey, tmp->val = ival;
+        // 将新建的节点插入 hash 表中
+        HASH_ADD_INT(hashtable, key, tmp);
+    } else { // 如果存在
+        it->val = ival; // 则更新键对应的值
+    }
+}
+
+// 在 nums 数组中查找两个数，使它们的和等于 target
+int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
+    hashtable = NULL; // 初始化 hash 表为空
+    for (int i = 0; i < numsSize; i++) { // 遍历 nums 数组
+        struct hashTable* it = find(target - nums[i]); // 查找 target - nums[i] 是否在 hash 表中
+        if (it != NULL) { // 如果找到
+            int* ret = malloc(sizeof(int) * 2); // 则新建一个数组 ret，长度为 2
+            ret[0] = it->val, ret[1] = i; // 将找到的元素下标和当前元素下标存储到 ret 中
+            *returnSize = 2; // 返回值的长度设为 2
+            return ret; // 返回 ret
+        }
+        insert(nums[i], i); // 向 hash 表中插入当前元素和下标
+    }
+    *returnSize = 0; // 如果没有找到，返回值长度为 0
+    return NULL; // 返回空指针
+}
