@@ -66,7 +66,7 @@ struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2)
     while(temp1 || temp2 || carry)
     {
         // 获取 l1 和 l2 当前节点的值
-        int val1 = temp1 ? temp1->val : 0;
+        int val1 = temp1 ? temp1->val : 0;//如果 temp1 不为空（也就是指向一个对象），那么就把 temp1->val 的值赋给 val1；否则，将 0 赋给 val1。
         int val2 = temp2 ? temp2->val : 0;
         int sum = val1 + val2 + carry;  // 求和
 
