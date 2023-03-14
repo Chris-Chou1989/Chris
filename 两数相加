@@ -1,4 +1,4 @@
-hstruct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2)
+struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2)
 {
     int a = 0;
     struct ListNode *temp1 = l1;
@@ -102,6 +102,10 @@ struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2)
 
     return head;  // 返回结果链表的头结点
 }
-该函数的作用是将两个链表 l1 和 l2 中存储的两个非负整数相加，并返回结果链表的头结点。每个节点表示一个数位，并且它们是逆序存储的，即第一个节点表示最低位，最后一个节点表示最高位。该函数使用了链表的基本操作，包括遍历、创建新节点、添加节点到链表等。同时，还使用了进位值的概念，处理相加结果大于 10 的情况。
+该函数的作用是将两个链表 l1 和 l2 中存储的两个非负整数相加，
+并返回结果链表的头结点。每个节点表示一个数位，并且它们是逆序
+存储的，即第一个节点表示最低位，最后一个节点表示最高位。该函
+数使用了链表的基本操作，包括遍历、创建新节点、添加节点到链表
+等。同时，还使用了进位值的概念，处理相加结果大于 10 的情况。
 
 //这是chatgpt写的正确答案
