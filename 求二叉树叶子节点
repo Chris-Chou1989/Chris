@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// 定义二叉树节点结构体
+struct TreeNode {
+    int val;                // 节点值
+    struct TreeNode *left;  // 左子树指针
+    struct TreeNode *right; // 右子树指针
+};
+
+// 定义函数，求二叉树叶子节点个数
+int countLeafNodes(struct TreeNode* root) {
+    if (root == NULL) {                         // 如果当前节点为空，则返回0
+        return 0;
+    }
+    if (root->left == NULL && root->right == NULL) { // 如果当前节点为叶子节点，则返回1
+        return 1;
+    }
+    // 递归求解当前节点的左子树和右子树的叶子节点个数，将它们相加即为整棵二叉树的叶子节点个数
+    return countLeafNodes(root->left) + countLeafNodes(root->right);
+}
+
+int main() {
+    // 构造一棵二叉树
+    struct TreeNode* root = (struct TreeNode*) malloc(sizeof(struct TreeNode)); // 创建根节点
+    root->val = 1;
+    root->left = (struct TreeNode*) malloc(sizeof(struct TreeNode));          // 创建左子节点
+    root->left->val = 2;
+    root->left->left = NULL;                                                   // 左子节点的左子树为空
+    root->left->right = NULL;                                                  // 左子节点的右子树为空
+    root->right = (struct TreeNode*) malloc(sizeof(struct TreeNode));         // 创建右子节点
+    root->right->val = 3;
+    root->right->left = (struct TreeNode*) malloc(sizeof(struct TreeNode));   // 创建右子节点的左子节点
+    root->right->left->val = 4;
+    root->right->left->left = NULL;                                            // 右子节点的左子节点的左子树为空
+    root->right->left->right = NULL;                                           // 右子节点的左子节点的右子树为空
+    root->right->right = (struct TreeNode*) malloc(sizeof(struct TreeNode));  // 创建右子节点的右子节点
+    root->right->right->val = 5;
+    root->right->right->left = NULL;                                           // 右子节点的右子节点的左子树为空
+    root->right->right->right = NULL;                                          // 右子节点的右子节点的右子树为空
+
+    // 求叶子节点个数并输出
+    int leafCount = countLeafNodes(root);
+    printf("The number of leaf nodes is: %d\n", leafCount);
+
+    // 释放内存
+    free(root->left);
+    free(root->right->left);
+    free(root->right->right);
+    free(root->right);
+    free(root);
+
+    return 0;
+}//二叉树示意图
+      1
+     / \
+    2   3
+       / \
+      4   5
+
