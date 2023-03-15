@@ -1,0 +1,18 @@
+def karatsuba(x, y):
+    # 如果x或y是一位数，则直接返回它们的乘积
+    if x < 10 or y < 10:
+        return x * y
+    
+    # 将x和y拆分为两个n/2位数
+    n = max(len(str(x)), len(str(y)))
+    m = n // 2  # 拆分的位数
+    high1, low1 = x // 10**m, x % 10**m  # x的高位数和低位数
+    high2, low2 = y // 10**m, y % 10**m  # y的高位数和低位数
+    
+    # 递归计算三个子问题的乘积
+    z0 = karatsuba(low1, low2)  # 计算低位数的乘积
+    z1 = karatsuba((low1 + high1), (low2 + high2))  # 计算中间两个数的乘积
+    z2 = karatsuba(high1, high2)  # 计算高位数的乘积
+    
+    # 计算结果
+    return (z2 * 10**(2*m)) + ((z1 - z2 - z0) * 10**m) + z0
