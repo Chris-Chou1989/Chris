@@ -1,0 +1,24 @@
+#include <stdio.h>
+
+int fib(int n) {
+    // 创建一个数组来保存子问题的解
+    int dp[n+1];
+    
+    // 初始化前两个数
+    dp[0] = 0;
+    dp[1] = 1;
+    
+    // 递推计算后面的数
+    for (int i = 2; i <= n; i++) {
+        dp[i] = dp[i-1] + dp[i-2];
+    }
+    
+    // 返回结果
+    return dp[n];
+}
+
+int main() {
+    int n = 10;
+    printf("第%d项斐波那契数为：%d", n, fib(n));
+    return 0;
+}
