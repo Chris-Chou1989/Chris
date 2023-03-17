@@ -1,0 +1,73 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_VERTEX_NUM 100  // 图中最大节点数
+
+// 邻接表结构体
+typedef struct ArcNode {
+    int adjvex;            // 目标节点
+    struct ArcNode *next;  // 指向下一个邻接点的指针
+} ArcNode;
+
+typedef struct VNode {
+    int data;        // 节点数据
+    ArcNode *first;  // 指向第一个邻接点的指针
+} VNode, AdjList[MAX_VERTEX_NUM];
+
+typedef struct {
+    AdjList vertices;  // 邻接表
+    int vexnum;        // 节点数
+    int arcnum;        // 边数
+} Graph;
+
+// 初始化有向图
+void InitGraph(Graph *g, int n) {
+    g->vexnum = n;  // 节点数为n
+    g->arcnum = 0;  // 边数初始为0
+    // 初始化每个节点
+    for (int i = 0; i < n; i++) {
+        g->vertices[i].data = i;  // 节点数据为i
+        g->vertices[i].first = NULL;  // 每个节点的邻接表初始为空
+    }
+}
+
+// 添加一条有向边
+void AddArc(Graph *g, int tail, int head) {
+    // 创建一个新的邻接点
+    ArcNode *arc = (ArcNode *)malloc(sizeof(ArcNode));
+    arc->adjvex = head;  // 目标节点为head
+    arc->next = g->vertices[tail].first;  // 将新的邻接点插入到tail节点的邻接表中
+    g->vertices[tail].first = arc;
+    g->arcnum++;  // 边数加1
+}
+
+// 计算节点的入度
+int InDegree(Graph *g, int node) {
+    int inDegree = 0;  // 初始入度为0
+    for (int i = 0; i < g->vexnum; i++) {  // 遍历所有节点
+        ArcNode *arc = g->vertices[i].first;
+        while (arc != NULL) {  // 遍历当前节点的邻接表
+            if (arc->adjvex == node) {  // 如果邻接点为当前节点，则入度加1
+                inDegree++;
+            }
+            arc = arc->next;  // 遍历下一个邻接点
+        }
+    }
+    return inDegree;
+}
+
+// 计算节点的出度
+int OutDegree(Graph *g, int node) {
+    int outDegree = 0;  // 初始出度为0
+    ArcNode *arc = g->vertices[node].first;
+    while (arc != NULL) {  // 遍历当前节点的邻接表
+        outDegree++;  // 每有一个邻接点，则出度加1
+        arc = arc->next;  // 遍历下一个邻接点
+    }
+    return outDegree;
+}
+
+int main() {
+    Graph g;
+    int n = 6;  // 节点数
+    InitGraph(&g, n);
