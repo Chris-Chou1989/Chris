@@ -1,0 +1,74 @@
+#include <iostream>
+using namespace std;
+
+// 定义圆柱体类
+class Cylinder {
+private:
+double radius; // 圆柱体底面半径
+double height; // 圆柱体高度
+
+public:
+// 构造函数，用于初始化圆柱体底面半径和高度
+Cylinder(double r, double h) {
+radius = r;
+height = h;
+}
+// 获取圆柱体底面半径
+double getRadius() {
+  return radius;
+}
+
+// 获取圆柱体高度
+double getHeight() {
+  return height;
+}
+
+// 设置圆柱体底面半径
+void setRadius(double r) {
+  radius = r;
+}
+
+// 设置圆柱体高度
+void setHeight(double h) {
+  height = h;
+}
+
+// 计算圆柱体体积
+double volume() {
+  return 3.14 * (radius * radius) * height;
+}
+
+// 计算圆柱体表面积
+double surfaceArea() {
+  return (2 * 3.14 * radius * height) + (2 * 3.14 * (radius * radius));
+}
+};
+
+int main() {
+// 创建一个Cylinder对象，初始化圆柱体底面半径为3，高度为5
+Cylinder myCylinder(3, 5);
+
+// 获取圆柱体底面半径和高度的值，并输出
+double radius = myCylinder.getRadius();
+double height = myCylinder.getHeight();
+cout << "圆柱体底面半径：" << radius << endl;
+cout << "圆柱体高度：" << height << endl;
+
+// 设置圆柱体底面半径为4，高度为6
+myCylinder.setRadius(4);
+myCylinder.setHeight(6);
+
+// 计算圆柱体的体积和表面积，并输出
+double volume = myCylinder.volume();
+double surfaceArea = myCylinder.surfaceArea();
+cout << "圆柱体体积：" << volume << endl;
+cout << "圆柱体表面积：" << surfaceArea << endl;
+
+return 0;
+}
+
+在主函数中，我们首先创建了一个Cylinder对象myCylinder，并初始化了圆柱体底面半径为3，高度为5。然后，我们通过调用getRadius()函数和getHeight()函数来获取圆柱体底面半径和高度的值，并输出。
+
+接下来，我们使用setRadius()函数和setHeight()函数来设置圆柱体底面半径为4，高度为6。然后，我们调用volume()函数和surfaceArea()函数来计算圆柱体的体积和表面积，并输出。
+
+最后，我们在主函数中返回0，表示程序执行成功。
