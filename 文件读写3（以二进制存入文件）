@@ -1,0 +1,150 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// 学生信息结构体
+typedef struct Student {
+    int id;               // 学号
+    char name[21];        // 姓名
+    char gender;          // 性别
+    float scores[3];      // 3门课的成绩
+    float total_score;    // 总成绩
+    float average_score;  // 平均成绩
+    struct Student *next; // 指向下一个学生的指针
+} Student;
+
+// 创建新的学生节点
+Student *create_student() {
+    Student *new_student = (Student *)malloc(sizeof(Student)); // 分配新的学生节点内存
+    // 从键盘输入学生信息
+    printf("请输入学号：");
+    scanf("%d", &(new_student->id));
+    printf("请输入姓名：");
+    scanf("%s", new_student->name);
+    printf("请输入性别：");
+    scanf(" %c", &(new_student->gender));
+    printf("请输入3门课的成绩：");
+    for (int i = 0; i < 3; i++) {
+        scanf("%f", &(new_student->scores[i]));
+        new_student->total_score += new_student->scores[i];
+    }
+    new_student->average_score = new_student->total_score / 3;
+    new_student->next = NULL; // 初始化指向下一个学生的指针为NULL
+    return new_student;
+}
+
+// 添加学生节点到链表中
+void add_student(Student **head) {
+    Student *new_student = create_student(); // 创建新的学生节点
+    if (*head == NULL) { // 如果链表为空，将新的学生节点设为链表头节点
+        *head = new_student;
+    } else { // 如果链表不为空，遍历到链表末尾，将新的学生节点添加到链表末尾
+        Student *temp = *head;
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        temp->next = new_student;
+    }
+}
+
+// 从链表中删除学生节点
+void delete_student(Student **head, int id) {
+    Student *temp = *head; // 从链表头节点开始遍历链表
+    Student *prev = NULL; // 记录当前节点的前一个节点
+    while (temp != NULL && temp->id != id) { // 找到要删除的学生节点
+        prev = temp;
+        temp = temp->next;
+    }
+    if (temp == NULL) { // 如果未找到要删除的学生节点，输出提示信息并返回
+        printf("未找到该学生！\n");
+        return;
+    }
+    if (prev == NULL) { // 如果要删除的学生节点是链表头节点，将链表头指针指向下一个节点
+        *head = temp->next;
+    } else { // 如果要删除的学生节点不是链表头节点，将前一个节点的next指针指向要删除节点的下一个节点
+        prev->next = temp->next;
+    }
+    free(temp); // 释放要删除节点的内存
+}
+
+// 打印学生信息
+void print_student(Student *student) {
+    printf("%d\t%s\t%c\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\n", student->id, student->name, student->gender, student->scores[0], student->scores[1], student->scores[2], student->total_score, student->average_score);
+}
+
+// 根据总成绩排序链表
+void sort_list(Student **head) {
+    if (*head == NULL || (*head)->next == NULL) {
+        return;
+    }
+    Student *pre = NULL;
+    Student *cur = *head;
+    Student *tail = NULL;
+    int exchange = 1;
+    while (exchange) {
+        exchange = 0;
+        while (cur->next != tail) {
+            if (cur->total_score < cur->next->total_score) {
+                if (pre != NULL) {
+                    pre->next = cur->next;
+                } else {
+                    *head = cur->next;
+                }
+                Student *temp = cur->next->next;
+                cur->next->next = cur;
+                cur->next = temp;
+                exchange = 1;
+            }
+            pre = cur;
+            cur = cur->next;
+        }
+        tail = cur;
+        cur = *head;
+        pre = NULL;
+    }
+}
+
+// 将链表中学生信息写入二进制文件
+void write_to_file(Student *head, char *filename) {
+    FILE *fp = fopen(filename, "wb");
+    if (fp == NULL) {
+        printf("文件打开失败！\n");
+        return;
+    }
+    Student *temp = head;
+    while (temp != NULL) {
+        fwrite(temp, sizeof(Student), 1, fp);
+        temp = temp->next;
+    }
+    fclose(fp);
+}
+
+void free_list(Student **head) {
+    Student *cur = *head;
+    while (cur != NULL) {
+        Student *temp = cur;
+        cur = cur->next;
+        free(temp);
+    }
+    *head = NULL;
+}
+
+
+int main() {
+    int n;
+    printf("请输入学生人数：");
+    scanf("%d", &n);
+    Student *head = NULL;
+    for (int i = 0; i < n; i++) {
+        printf("请输入第%d个学生的信息：\n", i+1);
+        add_student(&head);
+    }
+    printf("所有学生的信息：\n");
+    print_student(head);
+    sort_list(&head);
+    printf("按照总成绩排序后的学生信息：\n");
+    print_student(head);
+    write_to_file(head, "student.dat");
+    free_list(&head);
+    return 0;
+}
