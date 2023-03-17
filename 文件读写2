@@ -128,6 +128,6 @@ int main() {
     }
 
     fclose(fp);
-
+    printf("学生信息已存入 student.txt 文件\n");
     return 0;
 }
