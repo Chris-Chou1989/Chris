@@ -1,0 +1,48 @@
+#include <stdio.h>
+
+#define MAX_N 10   // 最大窗口数量
+#define MAX_M 10   // 最大点击次数
+
+int main() {
+    int n, m;
+    scanf("%d%d", &n, &m);
+
+    int top[MAX_N];   // top[i]表示第i个窗口的层次，值越大表示越靠上
+    int x1[MAX_N], y1[MAX_N], x2[MAX_N], y2[MAX_N];   // 分别表示每个窗口的两个顶点坐标
+
+    // 读入每个窗口的信息
+    for (int i = 0; i < n; i++) {
+        scanf("%d%d%d%d", &x1[i], &y1[i], &x2[i], &y2[i]);
+        top[i] = i;   // 初始化为输入顺序，即最底层的窗口在最前面
+    }
+
+    // 读入每次点击的坐标并处理
+    for (int i = 0; i < m; i++) {
+        int x, y;
+        scanf("%d%d", &x, &y);
+        int selected = -1;   // 初始化为无窗口被选中
+
+        // 遍历每个窗口，从上往下找到最先被点击的窗口
+        for (int j = n - 1; j >= 0; j--) {
+            if (x >= x1[top[j]] && x <= x2[top[j]] && y >= y1[top[j]] && y <= y2[top[j]]) {
+                // 点击位置在该窗口内
+                selected = top[j];   // 记录选中的窗口
+                // 将选中的窗口移到所有窗口的最顶层
+                for (int k = j; k < n - 1; k++) {
+                    top[k] = top[k+1];
+                }
+                top[n-1] = selected;
+                break;
+            }
+        }
+
+        // 输出本次点击结果
+        if (selected != -1) {
+            printf("%d\n", selected+1);   // 窗口编号从1开始
+        } else {
+            printf("IGNORED\n");
+        }
+    }
+
+    return 0;
+}
