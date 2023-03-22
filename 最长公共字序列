@@ -13,22 +13,37 @@
 #include <stdio.h>
 #include <string.h>
 
+// 定义函数lcs，接受两个参数：str1和str2
 int lcs(char* str1, char* str2) {
-    int m = strlen(str1);
-    int n = strlen(str2);
-    // 创建二维数组，初始化为0
+    int m = strlen(str1); // 计算字符串str1的长度
+    int n = strlen(str2); // 计算字符串str2的长度
+
+    // 创建二维数组，初始化为0，存储LCS的长度
     int dp[m+1][n+1];
     memset(dp, 0, sizeof(dp));
+
     // 动态规划计算LCS的长度
     for (int i = 1; i <= m; i++) {
         for (int j = 1; j <= n; j++) {
+            // 如果str1的第i个字符和str2的第j个字符相等
             if (str1[i-1] == str2[j-1]) {
+                // LCS的长度加1
                 dp[i][j] = dp[i-1][j-1] + 1;
             } else {
+                // 否则，取两个子串中的LCS长度的较大值
                 dp[i][j] = (dp[i-1][j] > dp[i][j-1]) ? dp[i-1][j] : dp[i][j-1];
             }
         }
     }
+
     // 返回LCS的长度
     return dp[m][n];
 }
+
+
+函数的实现过程分为三个步骤：
+
+初始化二维数组：定义一个二维数组dp[m+1][n+1]，其中m和n分别为两个字符串的长度，数组dp的初始值都为0，用于存储LCS的长度。
+动态规划计算LCS的长度：使用两个循环遍历字符串str1和str2的所有子串，如果两个字符相等，则LCS的长度加1，否则取两个子串中的LCS长度的较大值。
+返回LCS的长度：最终的LCS长度存储在数组dp[m][n]中，返回该值即可。
+注意，这里使用的是二维数组dp，其中dp[i][j]表示字符串str1的前i个字符和字符串str2的前j个字符的LCS长度。而实际上，可以使用滚动数组（一维数组）来节省空间，因为计算dp[i][j]只需要用到dp[i-1][j]和dp[i][j-1]两个值，因此只需要保存当前行和上一行的值即可。
