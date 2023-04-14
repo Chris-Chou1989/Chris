@@ -1,0 +1,52 @@
+#include <iostream>
+
+using namespace std;
+
+// 基类Animal
+class Animal {
+public:
+    // 声明虚函数speak
+    virtual void speak() {
+        cout << "Animal speaks" << endl;
+    }
+};
+
+// 派生类Mammal，虚继承自Animal
+class Mammal : virtual public Animal {
+public:
+    // 成员函数feedMilk
+    void feedMilk() {
+        cout << "Mammal feeds milk" << endl;
+    }
+};
+
+// 派生类Bird，虚继承自Animal
+class Bird : virtual public Animal {
+public:
+    // 成员函数layEgg
+    void layEgg() {
+        cout << "Bird lays egg" << endl;
+    }
+};
+
+// 派生类Platypus，多重继承自Mammal和Bird，同时虚继承自Animal
+class Platypus : public Mammal, public Bird {
+public:
+    // 覆盖基类Animal中的虚函数speak
+    void speak() override {
+        cout << "Platypus speaks" << endl;
+    }
+};
+
+// 主函数
+int main() {
+    // 创建Platypus类的实例platypus
+    Platypus platypus;
+    // 调用派生类Mammal中的成员函数feedMilk
+    platypus.feedMilk();
+    // 调用派生类Bird中的成员函数layEgg
+    platypus.layEgg();
+    // 调用派生类Platypus中的虚函数speak
+    platypus.speak();
+    return 0;
+}
