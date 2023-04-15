@@ -1,0 +1,82 @@
+#include <stdio.h>
+
+#include <stdbool.h> // 使用bool类型
+
+
+
+#define MAX_N 1000000 // 定义最大值
+
+
+
+int prime[MAX_N + 1]; // 定义质数表
+
+bool is_prime[MAX_N + 1]; // 定义是否为质数
+
+
+
+int main() {
+
+    // 初始化所有数字都是质数
+
+    for (int i = 2; i <= MAX_N; i++) {
+
+        is_prime[i] = true;
+
+    }
+
+
+
+    int cnt = 0; // 记录质数个数
+
+    for (int i = 2; i <= MAX_N; i++) {
+
+        if (is_prime[i]) { // 如果i是质数
+
+            prime[++cnt] = i; // 记录质数
+
+        }
+
+        for (int j = 1; j <= cnt && i * prime[j] <= MAX_N; j++) { // 遍历当前已知的质数
+
+            is_prime[i * prime[j]] = false; // 标记合数
+
+            if (i % prime[j] == 0) { // 如果i可以被prime[j]整除，结束循环
+
+                break;
+
+            }
+
+        }
+
+    }
+
+
+
+    int n;
+
+    while (scanf("%d", &n) == 1) { // 循环读入n
+
+        int ans = -1; // 初始化结果为-1
+
+        for (int i = cnt; i >= 1; i--) { // 从最大的质数开始循环
+
+            if (prime[i] <= n && is_prime[i]) { // 如果该质数小于等于n且该质数在质数表中也是质数
+
+                ans = prime[i]; // 更新结果
+
+                break; // 结束循环
+
+            }
+
+        }
+
+        printf("%d\n", ans); // 输出结果
+
+    }
+
+
+
+    return 0;
+
+}
+
