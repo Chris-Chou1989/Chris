@@ -1,0 +1,25 @@
+#include<iostream>
+
+#include<cmath>
+
+using namespace std;
+
+int main()
+
+{
+
+    int n;
+
+    int m;//数值位数
+
+    while(cin>>n)
+
+    {
+
+        m=n*log10(10)-log10(n)-log10(log(10))+1;
+
+        cout<<(int)m<<endl;
+
+    }
+
+}
