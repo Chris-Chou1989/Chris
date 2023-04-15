@@ -1,0 +1,128 @@
+#include <stdio.h>
+
+#include <stdbool.h>  // 需要使用bool类型
+
+#define MAXN 10000000  // 最大范围
+
+
+
+bool is_prime[MAXN + 1];  // 存储质数
+
+int primes[MAXN / 3];     // 存储质数的数组
+
+int cnt_primes;           // 质数的数量
+
+
+
+// 线性筛法求质数
+
+void sieve() {
+
+    is_prime[0] = is_prime[1] = false;
+
+    for (int i = 2; i <= MAXN; i++) {
+
+        if (is_prime[i]) {
+
+            primes[cnt_primes++] = i;
+
+        }
+
+        for (int j = 0; j < cnt_primes && i * primes[j] <= MAXN; j++) {
+
+            is_prime[i * primes[j]] = false;
+
+            if (i % primes[j] == 0) {
+
+                break;
+
+            }
+
+        }
+
+    }
+
+}
+
+
+
+// 判断是否是质数
+
+bool isPrime(int n) {
+
+    if (n < 2) {
+
+        return false;
+
+    }
+
+    for (int i = 2; i * i <= n; i++) {
+
+        if (n % i == 0) {
+
+            return false;
+
+        }
+
+    }
+
+    return true;
+
+}
+
+
+
+// 统计偶数n可以被表示为几种质数对之和
+
+int count_pairs(int n) {
+
+    int cnt = 0;
+
+    for (int i = 0; i < cnt_primes && primes[i] <= n / 2; i++) {
+
+        if (is_prime[n - primes[i]]) {
+
+            cnt++;
+
+        }
+
+    }
+
+    return cnt;
+
+}
+
+
+
+int main() {
+
+    // 初始化is_prime数组
+
+    for (int i = 2; i <= MAXN; i++) {
+
+        is_prime[i] = true;
+
+    }
+
+
+
+    // 线性筛法求质数
+
+    sieve();
+
+
+
+    int n;
+
+    while (scanf("%d", &n) == 1) {
+
+        printf("%d\n", count_pairs(n));
+
+    }
+
+
+
+    return 0;
+
+}
+
