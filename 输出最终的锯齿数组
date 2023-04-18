@@ -1,0 +1,63 @@
+#include <stdio.h>
+
+#include <string.h>
+
+
+
+int main() {
+
+    int n, m;
+
+    while (scanf("%d%d", &n, &m) == 2) {
+
+        int matrix[n][m];   // 二维数组存储锯齿矩阵
+
+        memset(matrix, 0, sizeof(matrix));   // 初始化为0
+
+        int row_len[n];     // 记录每一行的元素个数
+
+        memset(row_len, 0, sizeof(row_len)); // 初始化为0
+
+
+
+        for (int i = 0; i < m; i++) {
+
+            int x, y;
+
+            scanf("%d%d", &x, &y);
+
+            matrix[x-1][row_len[x-1]] = y;   // 将元素插入到相应的行的末尾
+
+            row_len[x-1]++;                 // 更新相应行的元素个数
+
+        }
+
+
+
+       
+
+for (int i = 0; i < n; i++) {
+
+    for (int j = 0; j < row_len[i]; j++) {
+
+        if (j == 0) {
+
+            printf("%d", matrix[i][j]); // 第一个元素前面不输出空格
+
+        } else {
+
+            printf(" %d", matrix[i][j]); // 非第一个元素前面输出一个空格
+
+        }
+
+    }
+
+    printf("\n");   // 输出一个换行符表示这一行已经输出完了
+
+}
+
+    }
+
+    return 0;
+
+}
