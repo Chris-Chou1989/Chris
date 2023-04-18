@@ -1,0 +1,65 @@
+#include <stdio.h>
+
+#include <stdlib.h>
+
+#include <string.h>
+
+#include <ctype.h>
+
+#include <stdbool.h>
+
+#include <math.h>
+
+#include <time.h>
+
+#include <set> // 引入set库
+
+#include <vector> // 引入vector库
+
+
+
+using namespace std; // 使用std命名空间
+
+
+
+int main() {
+
+    int n;
+
+    while (scanf("%d", &n) != EOF) { // 多组输入
+
+        set<int> s; // 定义set
+
+        for (int i = 0; i < n; i++) {
+
+            int x;
+
+            scanf("%d", &x);
+
+            s.insert(x); // 插入元素，自动去重
+
+        }
+
+        vector<int> v(s.begin(), s.end()); // 从set构造vector
+
+        printf("%d\n", v.size()); // 输出不同的随机数的个数
+
+        for (int i = 0; i < v.size(); i++) {
+
+            printf("%d", v[i]);
+
+            if (i != v.size() - 1) {
+
+                printf(" "); // 最后一个数后面没有空格
+
+            }
+
+        }
+
+        printf("\n");
+
+    }
+
+    return 0;
+
+}
