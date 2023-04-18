@@ -1,0 +1,35 @@
+#include <iostream>
+#include <cstdio>
+#include <iterator>  // 使用 inserter 函数需要包含此头文件
+#include <set>
+#include <algorithm>
+
+using namespace std;
+
+set<int> w[52];  // 声明集合
+
+int main()
+{
+    int n, m, t, k, a, b;
+    scanf("%d", &n);  // 读入集合个数
+    for (int i = 1; i <= n; i++)
+    {
+        scanf("%d", &m);  // 读入集合元素个数
+        while (m--)
+        {
+            scanf("%d", &t);  // 读入集合元素
+            w[i].insert(t);  // 加入到第 i 个集合中
+        }
+    }
+    scanf("%d", &k);  // 读入需要计算相似度的集合对数
+    while (k--)
+    {
+        scanf("%d%d", &a, &b);  // 读入需要计算相似度的集合对
+        int ia = w[a].size(), ib = w[b].size(), sum = 0;
+        set<int> s;
+        set_intersection(w[a].begin(), w[a].end(), w[b].begin(), w[b].end(), inserter(s, s.begin()));  // 使用 set_intersection 函数求交集
+        sum = s.size();
+        printf("%.2f%%\n", sum * 100.0 / (ia + ib - sum));  // 输出相似度值
+    }
+    return 0;
+}
